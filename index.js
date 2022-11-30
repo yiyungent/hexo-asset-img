@@ -17,9 +17,10 @@ function action(data) {
 
     // ![example](postname/example.jpg)  -->  {% asset_img example.jpg example %}
     var regExp = RegExp("!\\[(.*?)\\]\\(" + fileName + '/(.+?)\\)', "g");
+    var imgExp = RegExp("(<img\s*?.*?\s*?src=\")" + fileName + "/(.+?\".*?>)")
     // hexo g
     data.content = data.content.replace(regExp, "{% asset_img $2 $1 %}","g");
-
+    data.content = data.content.replace(imgExp, "$1$2", "g")
     // log.info(`hexo-asset-img: filename: ${fileName}, title: ${data.title.trim()}`);
     
     return data;
