@@ -1,4 +1,11 @@
-const log = require('hexo-log')({ 'debug': false, 'slient': false });
+var hexoLog = require('hexo-log');
+var log = typeof hexoLog["default"] === 'function' ? hexoLog["default"]({
+  debug: false,
+  silent: false
+}) : hexoLog({
+  debug: false,
+  silent: false
+});
 const htmlparser2 = require("htmlparser2");
 
 /**
