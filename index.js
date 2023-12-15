@@ -47,7 +47,7 @@ function action(data) {
     var fileName = reverseSource.substring(3, reverseSource.indexOf("/")).split("").reverse().join("");
 
     // ![example](postname/example.jpg)  -->  {% asset_img example.jpg example %}
-    var regExp = RegExp("!\\[(.*?)\\]\\(" + fileName + '/(.+?)\\)', "g");
+    var regExp = RegExp("!\\[(.*?)\\]\\(<?" + fileName + '/(.+?)>?\\)', "g");
     var imgExp = RegExp("(<img.*?src=\"" + fileName + "/.+?\".*?>)", "g")
     // hexo g
     data.content = data.content.replace(regExp, "{% asset_img $2 $1 %}", "g");
