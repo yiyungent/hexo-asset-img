@@ -12,11 +12,11 @@ const htmlparser2 = require("htmlparser2");
  * md文件返回 true
  * @param {*} data 
  */
-function ignore(data) {
-    // TODO: 好奇怪，试了一下, md返回true, 但却需要忽略 取反!
+function dont_ignore(data) {
     var source = data.source;
     var ext = source.substring(source.lastIndexOf('.')).toLowerCase();
-    return ['md',].indexOf(ext) > -1;
+    // 这里写 不 想被忽略的后缀名
+    return ['.md',].indexOf(ext) > -1;
 }
 
 function random(length) { // generate random string
@@ -42,23 +42,37 @@ function transform(img, fileName) {
     return styleTag + imgTag
 }
 
+// https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+function escapeRegex(string) {
+    return string.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
 function action(data) {
     var reverseSource = data.source.split("").reverse().join("");
     var fileName = reverseSource.substring(3, reverseSource.indexOf("/")).split("").reverse().join("");
+    // 处理文件名中的特殊字符
+    fileName = escapeRegex(fileName)
 
-    // ![example](postname/example.jpg)  -->  {% asset_img example.jpg example %}
+    /**
+     * 之前的处理方式是 ![example](postname/example.jpg)  -->  {% asset_img example.jpg example %}
+     * 这样部署后图片是左对齐的，并且不显示图片的slug
+     * 
+     * 新版的hexo直接支持 ![example](example.jpg) 来加载 postname/example.jpg
+     * 因此，调整为 ![example](postname/example.jpg)  -->  ![example](example.jpg)
+     */
+
     var regExp = RegExp("!\\[(.*?)\\]\\(<?" + fileName + '/(.+?)>?\\)', "g");
     var imgExp = RegExp("(<img.*?src=\"" + fileName + "/.+?\".*?>)", "g")
-    // hexo g
-    data.content = data.content.replace(regExp, "{% asset_img $2 $1 %}", "g");
+
+    data.content = data.content.replace(regExp, "![$1]($2)", "g");
+
     data.content = data.content.replace(imgExp, (match, img) => {return transform(img, fileName)}, "g")
-    // log.info(`hexo-asset-img: filename: ${fileName}, title: ${data.title.trim()}`);
     
     return data;
 }
 
 hexo.extend.filter.register('before_post_render',(data)=>{
-    if(!ignore(data)){
+    if(dont_ignore(data)){
         action(data)
     }
 }, 0);
