@@ -29,7 +29,6 @@ npm install hexo-asset-img --save
 npm install git://github.com/yiyungent/hexo-asset-img.git#main
 ```
 
-
 ```
 hexo-typora
 ├── apppicker.jpg
@@ -42,9 +41,47 @@ Make sure `post_asset_folder: true` in your `_config.yml`.
 
 `hexo-typora.md`: Just use `![logo](hexo-typora/logo.png)` to insert `logo.png`.
 
+
+### < hexo v7
+
+```bash
+npm install hexo-asset-img@1.1.0 --save
+```
+
+`_config.yml`
+
+```yml
+post_asset_folder: true
+relative_link: false
+```
+
+### >= hexo v7
+
+```bash
+npm install hexo-asset-img@1.2.0 --save
+```
+
+`_config.yml`
+
+```yml
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
+relative_link: false
+```
+
+
 ### Use with Typora
 
 - [Hexo + Typora + Hexo plug-in development to solve the inconsistency of image paths | yiyun's Blog](https://moeci.com/posts/hexo-typora)
+
+
+## test
+
+- [yiyungent/hexo-asset-img-test: Created with CodeSandbox](https://github.com/yiyungent/hexo-asset-img-test)
+- https://codesandbox.io/p/github/yiyungent/hexo-asset-img-test
+
 
 ## Origin
 

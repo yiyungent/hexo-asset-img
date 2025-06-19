@@ -41,6 +41,37 @@ Make sure `post_asset_folder: true` in your `_config.yml`.
 
 `hexo-typora.md`: Just use `![logo](hexo-typora/logo.png)` to insert `logo.png`.
 
+### < hexo v7
+
+```bash
+npm install hexo-asset-img@1.1.0 --save
+```
+
+`_config.yml`
+
+```yml
+post_asset_folder: true
+relative_link: false
+```
+
+### >= hexo v7
+
+```bash
+npm install hexo-asset-img@1.2.0 --save
+```
+
+`_config.yml`
+
+```yml
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
+relative_link: false
+```
+
+
+
 ### 与 Typora 配合使用
 
 - [Hexo + Typora + 开发Hexo插件 解决图片路径不一致 | yiyun's Blog](https://moeci.com/posts/hexo-typora)
