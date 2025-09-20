@@ -62,7 +62,7 @@ function action(data) {
      */
 
     var regExp = RegExp("!\\[(.*?)\\]\\(<?" + fileName + '/(.+?)>?\\)', "g");
-    var imgExp = RegExp("(<img.*?src=\"" + fileName + "/.+?\".*?>)", "g")
+    var imgExp = RegExp("(<img.*?src=\"" + fileName + "/.+?\".*?/>)", "g")
 
     data.content = data.content.replace(regExp, "![$1]($2)", "g");
 
